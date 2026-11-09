@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-# esphome_ld2410_calibrator
-calibration helper which replicates and improves on the Hi-link's calibration app for  ld2410 and like devices
-=======
 # LD2410 Calibrator - ESPHome Custom Component
 
-This ESPHome custom component provides automated calibration capabilities for the LD2410 mmWave radar sensor. It works in conjunction with the existing ESPHome LD2410 component to optimize detection thresholds based on your specific environment.
+Calibration helper which replicates and improves on the Hi-link's calibration app for  ld2410 and like devices. This ESPHome custom component provides automated calibration capabilities for the LD2410 mmWave radar sensor. It works in conjunction with the existing ESPHome LD2410 component to optimize detection thresholds based on your specific environment.
 
 ## Features
 
