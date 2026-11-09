@@ -1,0 +1,411 @@
+esphome:
+  name: ld2410-calibrator-example
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: "YourSSID"
+  password: "YourPassword"
+
+logger:
+
+api:
+
+ota:
+
+uart:
+  rx_pin: GPIO27  
+  tx_pin: GPIO13
+  baud_rate: 256000
+
+ld2410: {}
+
+# LD2410 Calibrator Component Configuration
+# 
+# MINIMAL CONFIGURATION:
+# ld2410_calibrator:
+#   id: calibrator
+#   # Basic buttons for calibration
+#   noise_floor_start:
+#     name: "Start Noise Floor"
+#   apply_calibration:
+#     name: "Apply Calibration"
+#   calibration_status:
+#     name: "Status"
+#
+# MINIMAL CONFIGURATION WITH DISTANCE CONTROLS:
+# ld2410_calibrator:
+#   id: calibrator
+#   max_movement_detection_distance:
+#     name: "Max Movement Range"
+#     initial_value: 4.5
+#   max_still_detection_distance:
+#     name: "Max Still Range"
+#     initial_value: 3.0
+#   calibration_status:
+#     name: "Status"
+#
+# FULL CONFIGURATION (with all options):
+ld2410_calibrator:
+  id: calibrator
+  # Component-level sensitivity settings (required)
+  still_sensitivity: 0.8  # Sensitivity for still detection
+  movement_sensitivity: 0.7  # Sensitivity for movement detection
+  still_blocking_sensitivity: 1.0  # Sensitivity for still blocking threshold calculation
+  movement_blocking_sensitivity: 1.0  # Sensitivity for movement blocking threshold calculation
+  # Maximum detection distance settings (0-6m range)
+  max_movement_detection_distance: 4.5  # Maximum distance for movement detection (meters)
+  max_still_detection_distance: 3.0     # Maximum distance for still detection (meters)
+  gate_sensors:
+    - gate: 0
+      still_sensor: gate_0_still_energy
+      move_sensor: gate_0_move_energy
+      still_threshold: gate_0_still_threshold
+      move_threshold: gate_0_movement_threshold
+    - gate: 1
+      still_sensor: gate_1_still_energy
+      move_sensor: gate_1_move_energy
+      still_threshold: gate_1_still_threshold
+      move_threshold: gate_1_movement_threshold
+    - gate: 2
+      still_sensor: gate_2_still_energy
+      move_sensor: gate_2_move_energy
+      still_threshold: gate_2_still_threshold
+      move_threshold: gate_2_movement_threshold
+    - gate: 3
+      still_sensor: gate_3_still_energy
+      move_sensor: gate_3_move_energy
+      still_threshold: gate_3_still_threshold
+      move_threshold: gate_3_movement_threshold
+    - gate: 4
+      still_sensor: gate_4_still_energy
+      move_sensor: gate_4_move_energy
+      still_threshold: gate_4_still_threshold
+      move_threshold: gate_4_movement_threshold
+    - gate: 5
+      still_sensor: gate_5_still_energy
+      move_sensor: gate_5_move_energy
+      still_threshold: gate_5_still_threshold
+      move_threshold: gate_5_movement_threshold
+    - gate: 6
+      still_sensor: gate_6_still_energy
+      move_sensor: gate_6_move_energy
+      still_threshold: gate_6_still_threshold
+      move_threshold: gate_6_movement_threshold
+    - gate: 7
+      still_sensor: gate_7_still_energy
+      move_sensor: gate_7_move_energy
+      still_threshold: gate_7_still_threshold
+      move_threshold: gate_7_movement_threshold
+    - gate: 8
+      still_sensor: gate_8_still_energy
+      move_sensor: gate_8_move_energy
+      still_threshold: gate_8_still_threshold
+      move_threshold: gate_8_movement_threshold
+
+  # Number controls (modern configuration)
+  still_sensitivity:
+    name: "Still Sensitivity"
+    initial_value: 0.8
+  movement_sensitivity:
+    name: "Movement Sensitivity"
+    initial_value: 0.7
+  still_blocking_sensitivity:
+    name: "Still Blocking Sensitivity"
+    initial_value: 1.0
+  movement_blocking_sensitivity:
+    name: "Movement Blocking Sensitivity"
+    initial_value: 1.0
+  max_movement_detection_distance:
+    name: "Max Movement Detection Distance"
+    initial_value: 4.5
+    step: 0.25
+  max_still_detection_distance:
+    name: "Max Still Detection Distance"
+    initial_value: 3.0
+    step: 0.25
+  noise_floor_duration:
+    name: "Noise Floor Duration"
+    initial_value: 30
+
+  # Progress sensor
+  calibration_progress:
+    name: "Calibration Progress"
+
+  # Status text sensor  
+  calibration_status:
+    name: "Calibration Status"
+
+  # Calibration control buttons
+  noise_floor_start:
+    name: "Start Noise Floor Calibration"
+  noise_floor_stop:
+    name: "Stop Noise Floor Calibration"
+  movement_start:
+    name: "Start Movement Calibration"
+  movement_stop:
+    name: "Stop Movement Calibration"
+  still_position_start:
+    name: "Start Still Position Capture"
+  still_position_stop:
+    name: "Stop Still Position Capture"
+  blocking_position_start:
+    name: "Start Blocking Position Capture"
+  blocking_position_stop:
+    name: "Stop Blocking Position Capture"
+  blocking_movement_start:
+    name: "Start Blocking Movement Capture"
+  blocking_movement_stop:
+    name: "Stop Blocking Movement Capture"
+  apply_calibration:
+    name: "Apply Calibration"
+
+  # Reset buttons
+  reset_noise_floor:
+    name: "Reset Noise Floor Data"
+  reset_still_signal:
+    name: "Reset Still Signal Data"
+  reset_movement_signal:
+    name: "Reset Movement Signal Data"
+  reset_blocking_signal:
+    name: "Reset Blocking Signal Data"
+  reset_all:
+    name: "Reset All Calibration Data"
+
+binary_sensor:
+  - platform: ld2410
+    has_moving_target:
+      name: "Moving Target"
+    has_still_target:
+      name: "Still Target"
+
+sensor:
+  - platform: ld2410
+    light:
+      name: "Light Level"
+    g0:
+      move_energy:
+        id: gate_0_move_energy
+        name: "0.0m move energy"
+      still_energy:
+        id: gate_0_still_energy
+        name: "0.0m still energy"
+    g1:
+      move_energy:
+        id: gate_1_move_energy
+        name: "0.75m move energy"
+      still_energy:
+        id: gate_1_still_energy
+        name: "0.75m still energy"
+    g2:
+      move_energy:
+        id: gate_2_move_energy
+        name: "1.5m move energy"
+      still_energy:
+        id: gate_2_still_energy
+        name: "1.5m still energy"
+    g3:
+      move_energy:
+        id: gate_3_move_energy
+        name: "2.25m move energy"
+      still_energy:
+        id: gate_3_still_energy
+        name: "2.25m still energy"
+    g4:
+      move_energy:
+        id: gate_4_move_energy
+        name: "3.0m move energy"
+      still_energy:
+        id: gate_4_still_energy
+        name: "3.0m still energy"
+    g5:
+      move_energy:
+        id: gate_5_move_energy
+        name: "3.75m move energy"
+      still_energy:
+        id: gate_5_still_energy
+        name: "3.75m still energy"
+    g6:
+      move_energy:
+        id: gate_6_move_energy
+        name: "4.5m move energy"
+      still_energy:
+        id: gate_6_still_energy
+        name: "4.5m still energy"
+    g7:
+      move_energy:
+        id: gate_7_move_energy
+        name: "5.2m move energy"
+      still_energy:
+        id: gate_7_still_energy
+        name: "5.2m still energy"
+    g8:
+      move_energy:
+        id: gate_8_move_energy
+        name: "6.0m move energy"
+      still_energy:
+        id: gate_8_still_energy
+        name: "6.0m still energy"
+
+number:
+  - platform: ld2410
+    timeout:
+      name: "Timeout"
+    light_threshold:
+      name: "Light Threshold"
+    max_move_distance_gate:
+      name: "Max Move Distance Gate"
+    max_still_distance_gate:
+      name: "Max Still Distance Gate"
+    g0:
+      move_threshold:
+        name: "0.0m move threshold"
+        id: gate_0_movement_threshold
+      still_threshold:
+        name: "0.0m still threshold"
+        id: gate_0_still_threshold
+    g1:
+      move_threshold:
+        name: "0.75m move threshold"
+        id: gate_1_movement_threshold
+      still_threshold:
+        name: "0.75m still threshold"
+        id: gate_1_still_threshold
+    g2:
+      move_threshold:
+        name: "1.5m move threshold"
+        id: gate_2_movement_threshold
+      still_threshold:
+        name: "1.5m still threshold"
+        id: gate_2_still_threshold
+    g3:
+      move_threshold:
+        name: "2.25m move threshold"
+        id: gate_3_movement_threshold
+      still_threshold:
+        name: "2.25m still threshold"
+        id: gate_3_still_threshold
+    g4:
+      move_threshold:
+        name: "3.0m move threshold"
+        id: gate_4_movement_threshold
+      still_threshold:
+        name: "3.0m still threshold"
+        id: gate_4_still_threshold
+    g5:
+      move_threshold:
+        name: "3.75m move threshold"
+        id: gate_5_movement_threshold
+      still_threshold:
+        name: "3.75m still threshold"
+        id: gate_5_still_threshold
+    g6:
+      move_threshold:
+        name: "4.5m move threshold"
+        id: gate_6_movement_threshold
+      still_threshold:
+        name: "4.5m still threshold"
+        id: gate_6_still_threshold
+    g7:
+      move_threshold:
+        name: "5.2m move threshold"
+        id: gate_7_movement_threshold
+      still_threshold:
+        name: "5.2m still threshold"
+        id: gate_7_still_threshold
+    g8:
+      move_threshold:
+        name: "6.0m move threshold"
+        id: gate_8_movement_threshold
+      still_threshold:
+        name: "6.0m still threshold"
+        id: gate_8_still_threshold
+
+button:
+  - platform: ld2410
+    factory_reset:
+      name: "Factory Reset"
+    restart:
+      name: "Restart"
+    query_params:
+      name: "Query Params"
+
+# Example automations using actions
+on_boot:
+  - delay: 5s
+  - ld2410_calibrator.start_noise_floor_calibration:
+      id: calibrator
+
+# Additional automation examples:
+# 
+# # Start movement calibration when a button is pressed
+# on_...:
+#   - ld2410_calibrator.start_movement_calibration:
+#       id: calibrator
+#
+# # Start blocking movement capture
+# on_...:
+#   - ld2410_calibrator.start_blocking_movement_capture:
+#       id: calibrator
+#
+# # Stop blocking movement capture
+# on_...:
+#   - ld2410_calibrator.stop_blocking_movement_capture:
+#       id: calibrator
+#
+# # Apply calibration after collecting data
+# on_...:
+#   - ld2410_calibrator.apply_calibration:
+#       id: calibrator
+#
+# # Reset all calibration data
+# on_...:
+#   - ld2410_calibrator.reset_all:
+#       id: calibrator
+
+# Configuration Notes:
+# 
+# 1. All platform components (buttons, numbers, sensors, text_sensors) are now 
+#    configured directly under the main ld2410_calibrator component
+#
+# 2. Number controls support initial_value, min_value, max_value, step, and restore_value
+#    Example:
+#    sensitivity:
+#      name: "Calibration Sensitivity"
+#      initial_value: 0.8
+#      min_value: 0.0
+#      max_value: 1.0
+#      step: 0.01
+#      restore_value: true
+#
+# 3. All buttons automatically get appropriate icons and entity categories
+#
+# 4. Progress sensor shows percentage completion during calibration
+#
+# 5. Status text sensor shows current calibration state and progress
+#
+# 6. Gate sensor configuration remains the same - link LD2410 sensors to 
+#    calibrator component for energy monitoring and threshold control
+#
+# 7. Distance settings (max_movement_detection_distance, max_still_detection_distance):
+#    - Range: 0.0 to 6.0 meters
+#    - Each gate represents 75cm (0.75m) of distance
+#    - Gate 0: 0-0.75m, Gate 1: 0.75-1.5m, Gate 2: 1.5-2.25m, etc.
+#    - The final max distance gate is the minimum of:
+#      a) The gate calculated from calibration data
+#      b) The gate calculated from the distance setting
+#    - This allows you to limit detection range even if calibration suggests longer ranges
+#    - Can be configured as component-level settings or as number controls for dynamic adjustment
+#
+# 8. Number controls for distance settings:
+#    - max_movement_detection_distance and max_still_detection_distance can be exposed as number entities
+#    - Users can adjust these values in real-time through Home Assistant UI
+#    - Changes are applied immediately and trigger recalibration
+#    - Default step size is 0.25m (matches gate boundaries at 0.75m intervals)
+#    - Example:
+#      max_movement_detection_distance:
+#        name: "Max Movement Range"
+#        initial_value: 4.5
+#        min_value: 0.0
+#        max_value: 6.0
+#        step: 0.25

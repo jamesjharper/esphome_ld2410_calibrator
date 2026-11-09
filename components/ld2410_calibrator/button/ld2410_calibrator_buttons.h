@@ -1,0 +1,31 @@
+#pragma once
+
+#include "esphome/components/ld2410_calibrator/button/ld2410_calibrator_button.h"
+#include "esphome/components/ld2410_calibrator/ld2410_calibrator.h"
+
+namespace esphome {
+namespace ld2410_calibrator {
+
+// Calibration control buttons
+DEFINE_LD2410_CALIBRATOR_BUTTON(NoiseFloorStartButton, start_noise_floor_calibration(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(NoiseFloorStopButton, stop_noise_floor_calibration(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(MovementStartButton, start_movement_calibration(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(MovementStopButton, stop_movement_calibration(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(StillPositionStartButton, start_capture_still_position(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(StillPositionStopButton, stop_capture_still_position(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(BlockingPositionStartButton, start_capture_blocking_position(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(BlockingPositionStopButton, stop_capture_blocking_position(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(BlockingMovementStartButton, start_capture_blocking_movement(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(BlockingMovementStopButton, stop_capture_blocking_movement(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ApplyCalibrationButton, apply_calibration(/* force_update*/ true), LD2410CalibratorComponent)
+
+// Reset buttons
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetNoiseFloorButton, reset_noise_floor(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetStillSignalButton, reset_still_signal(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetMovementSignalButton, reset_movement_signal(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetBlockingSignalButton, reset_blocking_signal(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetBlockingMovementSignalButton, reset_blocking_movement_signal(), LD2410CalibratorComponent)
+DEFINE_LD2410_CALIBRATOR_BUTTON(ResetAllButton, reset_all(), LD2410CalibratorComponent)
+
+}
+}
